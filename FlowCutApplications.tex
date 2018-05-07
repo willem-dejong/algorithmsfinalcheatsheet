@@ -1,1 +1,10 @@
 \section{Flow/Cut Applications}
+\subsection{Edge-Disjoint Paths}
+A set of paths in $G$ is \emph{edge-disjoint} if each edge in $G$ appears in at most one of the paths; several edge-disjoint paths may pass through the same vertex, however.\\
+
+Assign each edge capacity 1. The number of edge-disjoint paths is exactly equal to the value of the flow. Using Orlin's algorithm is overkill; the the maximum flow has value at most $V - 1$, so Ford-Fulkerson's original augmenting path algorithm also runs in $O(\left|f^*\right| E) = O(VE)$ time.
+
+\subsection{Vertex Capacities and Vertex-Disjoint Paths}
+If we require the total flow into (and out of) any vertex $v$ other than $s$ and $t$ is at most some value $c(v)$, we transform the input into a new graph. We replace each vertex $v$ with two vertices $v_{in}$ and $v_{out}$, connected by an edge $v_{in} \rightarrow v_{out}$ with capacity $c(v)$, and then replace every directed edge $u \rightarrow v$ with the edge $u_{out} \rightarrow v_{in}$ (keeping the same capacity).\\
+
+Computing the maximum number of \emph{vertex-disjoint} paths from $s$ to $t$ in any directed graph simply involves giving every vertex capacity 1, and computing a maximum flow.
