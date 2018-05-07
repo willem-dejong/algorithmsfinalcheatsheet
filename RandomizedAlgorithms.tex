@@ -13,27 +13,58 @@ The Union bound: Prob [ $\bigcup\limits_{i=1}^{\infty} F_{i}$ ] <= $\sum_{n=1}^{
 
 Verifying AB=C matrix mult
 
-B\overbar{r} -> A(B\overbar{r}) and C\overbar{r}. if A(B\overbar{r}) != C\overbar{r} then AB != C
+B$\overbar{r} -> A(B\overbar{r})$ and $C\overbar{r}$. if $A(B\overbar{r}) != C\overbar{r}$ then $AB != C$
 
-Principle of Deffered Decisions: If AB != C and \overbar{r} is chosen uniformly at random with r_n at 0-1 then Prob(AB\overbar{r} = C\overbar{r}) <= 1/2
+Principle of Deferred Decisions: If $AB != C$ and $\overbar{r}$ is chosen uniformly at random with $r_n$ at 0-1 then Prob($AB\overbar{r} = C\overbar{r}) <= 1/2$
 
-Law of Total Probability: Let E_1 ... E_n be mutually disjoint events in the sample space \Omega and let $\bigcup\limits_{i=1}^{n} E_{i}$ then $\sum_{i=1}^{n}  Prob[ B | E_{i}] Prob[E_{i}] $ 
+Law of Total Probability: Let $E_1 ... E_n$ be mutually disjoint events in the sample space $\Omega$ and let $\bigcup\limits_{i=1}^{n} E_{i}$ then $\sum_{i=1}^{n}  Prob[ B | E_{i}] Prob[E_{i}] $ 
 
-Repeated trials increase the runtime to \Theta(kn^2)
+Repeated trials increase the runtime to $\Theta(kn^2)$
 If it returns false, then it this is right, but if it returns true, then it returns so with some probability of mistake.
 
 %%%%%%%
 
-Average value: $\sum_{j=1}^{\infty}  j * Prob[ X = j ] $ = (n + 1) / 2 while Prob [X = j] = 1/n
+Average value: $\sum_{j=1}^{\infty}  j * Prob[ X = j ]  = (n + 1) / 2$ while Prob $[X = j] = 1/n$
 
-To take exactly J steps: Prob [X = j] = (1 - p)^{j - 1} p
-1/p for the first success
+To take exactly $j$ steps: Prob $[X = j] = (1 - p)^{j - 1} p$
+$1/p$ for the first success
 
-Linearity of Expectation: Given 2 random vars X and Y in the same probability space, E [X + Y] = E[ X ] + E [ Y ] 
+Linearity of Expectation: Given 2 random vars $X$ and $Y$ in the same probability space, $E [X + Y] = E[ X ] + E [ Y ] $
 
-Memoryless guessing expected correct: 1, independent of n
+Memoryless guessing expected correct: 1, independent of $n$
 
-Memory guessing; H(n) = \Theta(logn) [harmonic series]
+Memory guessing; $H(n) = \Theta(log(n))$ [harmonic series]
 
-Coupon collection: E[ X_{j}] = n / (n - j); n = #; j = collected; ( n - j ) / n of getting a new one
-E[X] = nH(n) = \Theta(nlogn)
+Coupon collection: $E[ X_{j}] = n / (n - j); n $= number of; $j$ = collected; $( n - j ) / n$ of getting a new one
+$E[X] = nH(n) = \Theta(nlog(n))$
+
+Conditional Probability: $E[ X | \alpha ] =  \sum_{j=0}^{\infty} j *$ Prob $[ X = j | \alpha]$
+
+For the MAX 3-SAT there is a randomized algo with polynomial expected run time that is guaranteed to produce a truth assignment satisfying at least a $7/8$ fraction of all clauses. We would need $8k$ trials to get the satisfying assignment.
+
+\begin{algorithmic}[1]
+	\Function{Select}{$S, k$}
+		\State {$a_i \gets random var in S$}
+		\For{each element $a_j$ of $S$}
+			\State{$S^{-}$.append($a_j$) if $a_j < a_i$}
+			\State{$S^{+}$.append($a_j$) if $a_j > a_i$}
+		\EndFor
+		\If{$S^{-} = k - 1$}
+			\State{return $a_i$}
+		\ElsIf{$S^{-} \geq k$}
+			\State{Select($S^{-}, k$)}
+		\Else
+			\State{Select($S^{+}, k-1- |S^{-}|$)}
+		\EndIf
+	\EndFunction
+\end{algorithmic}
+
+%%%%
+Expected num comparisons  quicksort: $2nln(n) + O(n), \Omega(nlogn)$
+
+%%%
+
+Uniform: Prob $[h(x) = i] = 1/m$ for all $x$ and all $i$
+Universal: Prob $[h(x) = h(y)] = 1/m$ for all $x != y$
+Near-universal: Prob $[h(x) = h(y)] \leq 2/m$ for all $x != y$
+k-uniform: Prob $ [ \wedge{}_{j=1}^{k} h(x_j) = i_j) ] = 1 / m^{k}$ for all distinct $x_1...x_k$ and all $i_1...i_k$
