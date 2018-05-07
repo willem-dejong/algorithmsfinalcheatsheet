@@ -1,1 +1,39 @@
-RandomizedAlgorithms
+
+Processes (w no communication) accessing a single DB
+
+Probability of any success =  $p* (1 - p) ^ n-1 $ ...
+$p = \Theta(1/n)$ ...
+$t = t;$ prob of fail $\leq 1/e$ ...
+$t = en*cln(n);$ prob of fail $\leq n^{-c}$ ...
+How long until succeeding at least once: $n^{-1}$
+
+The Union bound: Prob [ $\bigcup\limits_{i=1}^{\infty} F_{i}$ ] <= $\sum_{n=1}^{\infty}  Prob[ F_{i}] $ 
+
+%%%%%%%
+
+Verifying AB=C matrix mult
+
+B\overbar{r} -> A(B\overbar{r}) and C\overbar{r}. if A(B\overbar{r}) != C\overbar{r} then AB != C
+
+Principle of Deffered Decisions: If AB != C and \overbar{r} is chosen uniformly at random with r_n at 0-1 then Prob(AB\overbar{r} = C\overbar{r}) <= 1/2
+
+Law of Total Probability: Let E_1 ... E_n be mutually disjoint events in the sample space \Omega and let $\bigcup\limits_{i=1}^{n} E_{i}$ then $\sum_{i=1}^{n}  Prob[ B | E_{i}] Prob[E_{i}] $ 
+
+Repeated trials increase the runtime to \Theta(kn^2)
+If it returns false, then it this is right, but if it returns true, then it returns so with some probability of mistake.
+
+%%%%%%%
+
+Average value: $\sum_{j=1}^{\infty}  j * Prob[ X = j ] $ = (n + 1) / 2 while Prob [X = j] = 1/n
+
+To take exactly J steps: Prob [X = j] = (1 - p)^{j - 1} p
+1/p for the first success
+
+Linearity of Expectation: Given 2 random vars X and Y in the same probability space, E [X + Y] = E[ X ] + E [ Y ] 
+
+Memoryless guessing expected correct: 1, independent of n
+
+Memory guessing; H(n) = \Theta(logn) [harmonic series]
+
+Coupon collection: E[ X_{j}] = n / (n - j); n = #; j = collected; ( n - j ) / n of getting a new one
+E[X] = nH(n) = \Theta(nlogn)
