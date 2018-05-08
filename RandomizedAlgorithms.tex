@@ -1,10 +1,9 @@
 \subsection{Processes and DB}
-
-Probability of any success =  $p* (1 - p) ^ n-1 $ ...
-$p = \Theta(1/n)$ ...
-$t = t;$ prob of fail $\leq 1/e$ ...
-$t = en*cln(n);$ prob of fail $\leq n^{-c}$ ...
-How long until succeeding at least once: $n^{-1}$
+Assume each process $P_i$ has some probability $p$ to access a database. A successful round is when exactly one process accesses the database. The probability of a single successful round is $p(1 - p)^{n-1}$.\\
+We can maximize this probability by setting $p = \frac{1}{n}$. The probability of success here is $\Theta(\frac{1}{n})$.\\
+Now, let's examine how long it will take process $P_i$ to succeed in accessing the database at least once. Running $t$ times, the probability that process $P_i$ does not succeed in any of rounds 1 through $t$ is $\leq (1 - \frac{1}{en})^t$. Setting $t$ to $\left\lceil en \right\rceil$ means the probability is $\leq e^{-1}$, independent of $n$.\\
+If we set $t = \left\lceil en \right\rceil \cdot (c \ln n)$, the probability of failure is upper-bounded by $n^{-c}$ ...\\
+With probablity at least $1 - n^{-1}$, all processes succeed in accessing the database at least once within $t = 2 \left\lceil en \right\rceil \ln n$ rounds.
 
 \subsection{The Union Bound}
 Prob [ $\bigcup\limits_{i=1}^{\infty} F_{i}$ ] <= $\sum_{n=1}^{\infty}  Prob[ F_{i}] $ 
