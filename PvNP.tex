@@ -59,8 +59,27 @@ $G$ contains a vertex cover of size $K$ if and only if $H$ contains a Hamiltonia
 
 Given a graph $G$ and an integer $k$, first number edges from 0 to $m-1$; set $X$ contains the integer $b_{i} = 4^{i}$ for each edge $i$, and the integer $a_{v} = 4^{m} + \sum_{i \in \delta(v)}{4^i}$ where $\delta(v)$ is the set of edges that have $v$ as an endpoint. Finally, we set the target sum: $t = k * 4^m + \sum_{i = 0}^{m-1}{2 * 4^i}$
 
-\subsection{LIS -> DAG}
+\subsection{Longest Increasing Subsequence [from DAG]}
 
 Turn every number in the sequence into a vertex in a graph. Construct a special vertex $d$. For each vertex $v_1$, construct an edge to another vertex $v_2$ if (1) $v_2$ comes after $v_1$ in the sequence, and (2) $v_2$ > $v_1$. Also construct an edge to $d$.\\ 
 
 Every path on this graph is a valid increasing subsequence. The problem of finding the LIS is now the problem of finding the longest path on this graph. Apply DAG.
+
+\subsection{Maximum Independent Set [from 3SAT]}
+
+Construct a graph $G$ which has one vertex for each instance of each literal in the 3SAT formula. Two vertices are connected by an edge if (1) they correspond to literals in the same clause, or (2) they correspond to a variable and its inverse. For example, the formula $(a \vee b \vee c) \wedge (b \vee \overline{c} \vee \overline{d}) \wedge (\overline{a} \vee c \vee d) \wedge (a \vee \overline{b} \vee \overline{d})$ is transformed into:
+
+\includegraphics[width=\linewidth]{images/3CNFGraph.png}
+
+Suppose the original formula had $k$ clauses. Then the formula is satisfiable iff the graph has an independent set of size $k$.
+
+\subsection{Clique [from Independent Set]}
+Any graph $G$ has an \emph{edge-complement} $\overline{G}$ with the same vertices, but with exactly the opposite set of edges - $(u, v)$ is an edge in $\overline{G}$ if and only if it is \emph{not} an edge in $G$. A set of vertices is independent in $G$ if and only if the same vertices define a clique in $\overline{G}$. Thus, we can compute the largest independent set in a graph by computing the largest clique in the complement of the graph.
+
+\includegraphics[width=\linewidth]{images/maxclique.png}
+
+\subsection{3Color [from 3SAT]}
+\includegraphics[width=\linewidth]{images/truthgadget.png}
+\includegraphics[width=\linewidth]{images/3color.png}
+
+Truth gadget: $T,F$, and $X$ for true/false/other, variable gadget for variable a connecting and $\overbar{a}$ which must be opposite bools. Clause gadget joining three literal nodes to node $T$ in the truth gadget using give new unlabeled nodes and ten edges.

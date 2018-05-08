@@ -1,23 +1,23 @@
 \section{SAT and CNF-SAT}
 
 \subsection{Formula Satisfiability/SAT}
-$(a \vee b \vee c \vee \overbar{d})$ <=>  $((b \wedge \overbar{c}) \vee \overbar{ ( \overbar{a} => d) } \vee (c \neq a \wedge b)) $
+Given a boolean formula like $(a \vee b \vee c \vee \overline{d}) \Leftrightarrow ((b \wedge \overline{c}) \vee \overline{ ( \overline{a} \Rightarrow d) } \vee (c \neq a \wedge b))$, is it possible to assign boolean values to $a, b, c, \ldots$ so that the formula evaluates to \Var{True}?\\
+
+We can transform any boolean circuit to a formula in linear time (using depth-first search), and the size of the resulting formula is only a constant factor larger than the size of the circuit. Thus, we have a polynomial-time reduction from circuit satisfiability to SAT. Thus, SAT is NP-hard.\\
+
+To prove that a boolean formula is satisfiable, we only have to specify an assignment to the variables that makes the formula \Var{True}. We can check the proof in linear time just by reading the formula from left to right, evaluating as we go. So SAT is also in NP, and thus is NP-complete.
 
 \subsection{CNF}
-conjunction/AND of several clauses which use OR inside these clauses.
+A boolean form is in \emph{conjunctive normal form} if it is a conjunction (\alg{and}) of several clauses, each of which is the disjunction (\alg{or}) of several \emph{literals}, each of which is either a variable or its negation. For example, $(a \vee b \vee c \vee d) \wedge (b \vee \overline{c} \vee \overline{d}) \wedge (\overline{a} \vee c \vee d) \wedge (a \vee \overline{b})$.
+
 \subsection{3CNF}
-cnf with exactly 3 literals per clause
+A 3CNF formula is a CNF formula with exactly 3 literals per clause; the previous example is not a 3CNF formula, since its first clause has four literals and its last clause has only two. 3SAT is just SAT restricted to 3CNF formulas: Given a 3CNF formula, is there an assignment to the variables that makes the formula evaluate to \Var{True}?
 
-\subsection{Maximum Independent Set (from 3Sat)}
-input is a simple, unweighted graph, get the size of the largest/smallest subgraph
-Make the formula into a graph or vice versa, if it has an independent set of size $k$, its possible
-Any graph has an edge-complement with the same vertices but the opposite set of edges if its not an edge in $G$. Its independent in $G$ if and only if the same vertices define a clique in $\overbar{G}$ (a complete graph). The largest independent is thus the largest clique in the compliment of the graph.
+\begin{enumerate}
+	\item Make sure every \alg{and} and \alg{or} gate has only two inputs. If any gate has $k > 2$ inputs, replace it with a binary tree of $k - 1$ two-input gates.
+	\item Write down the circuit as a formula, with one clause per gate.
+	\item Change every gate clause into a CNF formula
+	\item Make sure every clause has exactly three literals
+\end{enumerate}
 
-\includegraphics[width=\linewidth]{images/maxclique.png}
-
-\subsection{3Color [From 3SAT]}
-\includegraphics[width=\linewidth]{images/hamcycle.png}
-\includegraphics[width=\linewidth]{images/truthgadget.png}
-\includegraphics[width=\linewidth]{images/3color.png}
-
-Truth gadget: $T,F$, and $X$ for true/false/other, variable gadget for variable a connecting and $\overbar{a}$ which must be opposite bools. Clause gadget joining three literal nodes to node $T$ in the truth gadget using give new unlabeled nodes and ten edges.
+Every binary gate in the original circuit will be transformed into at most 5 clauses.
