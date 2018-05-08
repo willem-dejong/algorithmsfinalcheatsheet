@@ -1,6 +1,6 @@
 \section{Randomized Algorithms}
 
-\subsection{Processes and DB}
+\subsection{Processes and Database}
 Assume each process $P_i$ has some probability $p$ to access a database. A successful round is when exactly one process accesses the database. The probability of a single successful round is $p(1 - p)^{n-1}$.\\
 We can maximize this probability by setting $p = \frac{1}{n}$. The probability of success here is $\Theta(\frac{1}{n})$.\\
 Now, let's examine how long it will take process $P_i$ to succeed in accessing the database at least once. Running $t$ times, the probability that process $P_i$ does not succeed in any of rounds 1 through $t$ is $\leq (1 - \frac{1}{en})^t$. Setting $t$ to $\left\lceil en \right\rceil$ means the probability is $\leq e^{-1}$, independent of $n$.\\
@@ -8,54 +8,71 @@ If we set $t = \left\lceil en \right\rceil \cdot (c \ln n)$, the probability of 
 With probablity at least $1 - n^{-1}$, all processes succeed in accessing the database at least once within $t = 2 \left\lceil en \right\rceil \ln n$ rounds.
 
 \subsection{The Union Bound}
-Prob [ $\bigcup\limits_{i=1}^{\infty} F_{i}$ ] <= $\sum_{n=1}^{\infty}  Prob[ F_{i}] $ 
+Given events $\mathscr{E}_1, \mathscr{E}_2, \ldots, \mathscr{E}_n$, we have
+\[
+	\text{Pr} \left[ \bigcup_{i=1}^{n} \mathscr{E}_i \right] \leq \sum_{i=1}^n \text{Pr}\left[ \mathscr{E}_i \right]
+\]
+
+We usually want the union on the left-hand side to represent a 	``bad event'' that we're trying to avoid, and want a bound on its probability in terms of constituent ``bad events'' on the right-hand side.
 
 %%%%%%%
 
 \subsection{Verifying AB=C}
 
-B$\overbar{r} -> A(B\overbar{r})$ and $C\overbar{r}$. if $A(B\overbar{r}) != C\overbar{r}$ then $AB != C$
+Choose a random vector $\overline{r} = (r_1, r_2, \ldots, r_n) \in \{0, 1\}^n$. Then compute $B\overline{r}$ and then $A(B\overline{r})$; finally, compute $C\overline{r}$. If $A(B\overline{r}) \neq C\overline{r}$, then $AB \neq C$.\\
 
-\subsection{Principle of Deferred Decisions}
-If $AB != C$ and $\overbar{r}$ is chosen uniformly at random with $r_n$ at 0-1 then Prob($AB\overbar{r} = C\overbar{r}) <= 1/2$
+If $AB \neq C$ and if $\overline{r}$ is chosen uniformly at random from $\{0, 1\}^n$, then $\text{Pr}(AB\overline{r} = C\overline{r}) \leq \frac{1}{2}$.
+
+Repeated trials increase the runtime to $\Theta(kn^2)$, and probability of error at most $2^{-k}$.\\
+
+If it returns false, then it is always right, but if it returns true, then it does so with some probability of error.
 
 \subsection{Law of Total Probability}
-Let $E_1 ... E_n$ be mutually disjoint events in the sample space $\Omega$ and let $\bigcup\limits_{i=1}^{n} E_{i}$ then $\sum_{i=1}^{n}  Prob[ B | E_{i}] Prob[E_{i}] $ 
+Let $E_1 ... E_n$ be mutually disjoint events in the sample space $\Omega$ and let $\bigcup_{i=1}^{n} E_{i} = \Omega$. Then
 
-Repeated trials increase the runtime to $\Theta(kn^2)$
-If it returns false, then it this is right, but if it returns true, then it returns so with some probability of mistake.
+\[
+	\text{Pr}(B) = \sum_{i=1}^n \text{Pr}(B \cap E_i) = \sum_{i=1}^n \text{Pr}(B | E_i) \text{Pr}(E_i)
+\]
 
 %%%%%%%
 
-\subsection{Median Value}
-$\sum_{j=1}^{\infty}  j * Prob[ X = j ]  = (n + 1) / 2$ while Prob $[X = j] = 1/n$
+\subsection{Expected Value}
 
-To take exactly $j$ steps: Prob $[X = j] = (1 - p)^{j - 1} p$
-$1/p$ for the first success
+\[
+	E[X] = \sum_{j = 0}^\infty j \cdot \text{Pr}[X = j]
+\]
 
-\subsection{Median Value}
-Linearity of Expectation: Given 2 random vars $X$ and $Y$ in the same probability space, $E [X + Y] = E[ X ] + E [ Y ] $
+Suppose we have a coin which has a probability $p > 0$ of landing heads, and a probability $1 - p$ of landing tails. If we flip the coin until we get a heads, what's the expected number of flips we will perform?\\
+
+For $j > 0$, we have $\text{Pr}[X = j] = p(1 - p)^{j-1}$; in order for the process to take exactly $j$ steps, the first $j - 1$ flips must come up tails, and the $j$th must come up heads. Thus, $E[X] = \sum_{j = 0}^\infty j \cdot \text{Pr}[X = j] = \frac{1}{p}$.
+
+\subsection{Linearity of Expectation}
+Given 2 random vars $X$ and $Y$ in the same probability space, $E [X + Y] = E[ X ] + E [ Y ] $
 
 \subsection{Memoryless guessing}
-Expected correct: 1, independent of $n$
+You attempt to guess cards uniformly at random as they are revealed in a shuffled deck. You can expect to get 1 correct, independent of $n$ (use Linearity of Expectation).
 
 \subsection{Memory guessing}
-$H(n) = \Theta(log(n))$ [harmonic series]
+Now, if you remember which cards have been revealed (and randomly choose un-revealed cards), you can expect to correctly predict $H(n) = \Theta(\log n)$ cards (this is the harmonic series).
 
-\subsection{Coupon collection:}
-$E[ X_{j}] = n / (n - j); n $= number of; $j$ = collected; $( n - j ) / n$ of getting a new one
-$E[X] = nH(n) = \Theta(nlog(n))$
+\subsection{Coupon collection}
+Suppose a cereal brand offers $n$ types of coupons in boxes, at random. How many do you expect to buy before getting a coupon of each type?\\
 
-\subsection{Conditional Probability}
-$E[ X | \alpha ] =  \sum_{j=0}^{\infty} j *$ Prob $[ X = j | \alpha]$
+Let $j$ be the number of coupons already collected. Then $E[ X_{j}] = n / (n - j)$, since $( n - j ) / n$ is the odds of getting a new coupon. Thus, $E[X] = nH(n) = \Theta(n \log n)$.
+
+\subsection{Conditional Expectation}
+Define the \emph{conditional expectation} of $X$, given $\mathscr{E}$, to be the expected value of $X$ computed only over the part of the sample space corresponding to $\mathscr{E}$. Then $E[ X | \mathscr{E} ] =  \sum_{j=0}^{\infty} j \cdot \text{Pr} [ X = j | \mathscr{E} ]$.
 
 \subsection{Max 3-SAT}
 There is a randomized algo with polynomial expected run time that is guaranteed to produce a truth assignment satisfying at least a $7/8$ fraction of all clauses. We would need $8k$ trials to get the satisfying assignment.
 
+\subsection{Quicksort}
+
+To select a median:
 \begin{algorithmic}[1]
 	\Function{Select}{$S, k$}
-		\State {$a_i \gets random var in S$}
-		\For{each element $a_j$ of $S$}
+		\State {$a_i \gets$ a random var in $S$}
+		\ForAll{$a_j$ in $S$}
 			\State{$S^{-}$.append($a_j$) if $a_j < a_i$}
 			\State{$S^{+}$.append($a_j$) if $a_j > a_i$}
 		\EndFor
@@ -64,34 +81,38 @@ There is a randomized algo with polynomial expected run time that is guaranteed 
 		\ElsIf{$S^{-} \geq k$}
 			\State{Select($S^{-}, k$)}
 		\Else
-			\State{Select($S^{+}, k-1- |S^{-}|$)}
+			\State{Select($S^{+}, k-1-\left|S^{-}\right|$)}
 		\EndIf
 	\EndFunction
 \end{algorithmic}
 
-%%%%
-
-\subsection{Quicksort ExpectedComparisons}
-$2nln(n) + O(n), \Omega(nlogn)$
+The expected running time is $O(n)$.\\
+The expected number of comparisons in quicksort is $n \log n$.
 
 %%%
 
-\subsection{Uniform}
+\subsection{Hashing}
+Let $n$ be the number of items stored in the map, and $m$ be the size of the map.
 
-Prob $[h(x) = i] = 1/m$ for all $x$ and all $i$
+\subsubsection{Uniform}
+A hashing chosen uniformly at random means that for all $x$ and all $i$, $\text{Pr}[h(x) = i] = \frac{1}{m}$.
 
-\subsection{Universal}
-Prob $[h(x) = h(y)] = 1/m$ for all $x != y$
-\subsection{Near-universal}
-Prob $[h(x) = h(y)] \leq 2/m$ for all $x != y$; E[$chainLen$] $\leq 2*\alpha;$ Runtime: $\Theta(1 + \alpha)$
-\subsection{k-uniform}
-Prob $ [ \wedge{}_{j=1}^{k} h(x_j) = i_j) ] = 1 / m^{k}$ for all distinct $x_1...x_k$ and all $i_1...i_k$
-\subsection{Load Factor}
-$\alpha = n/m$
-\subsection{Balanced Binary Tree Search}
-O(1 + log($chainLen$)) with any hash 
-O(1 + log($\alpha$)) for uniform
-\subsection{Recursively Hash}
-$O(log_{m}{n})$
-\subsection{Expected Search w/ binary probe}
-O(1)
+\subsubsection{Universal}
+For any two items in the universe, the probability of collision is as small as possible: $\text{Pr}[h(x) = h(y)] = frac{1}{m}$ for all $x \neq y$.
+
+\subsubsection{Near-universal}
+The probability of collision is \emph{close} to ideal: $\text{Pr}[h(x) = h(y)] \leq 2/m$ for all $x \neq y$.
+
+\subsubsection{k-uniform}
+The probability that each key maps to the corresponding hash value is $\text{Pr}[\bigwedge_{j=1}^{k} h(x_j) = i_j)] = \frac{1}{m^{k}}$ for all distinct $x_1,\ldots,x_k$ and all $i_1,\ldots,i_k$.
+
+\subsubsection{Load Factor}
+For a universal hash function, the probability of collision is $E[C_{x, y}] = \text{Pr}[C_{x,y} = 1] = 1$ if $x = y$ and $1/m$ otherwise. Thus, the expected number of collisions is $\frac{n}{m}$. This load factor is $\alpha = n/m$.\\
+
+\subsubsection{Runtime}
+Using a linked list, we have a bound for searching the hash table: $\Omega(1 + \alpha)$. Using a balanced binary tree, we have a bound of $O(1 + \log \alpha)$.\\
+
+If we instead create a recursive hash table, we end up with a bound of $O(\log_m n)$.
+
+\subsubsection{Open Addressing}
+If we simply attempt to fill empty spaces with values, rather than use chaining to address collisions, we reduce our expected time to $O(1)$, unless the hash table is almost completely full.
