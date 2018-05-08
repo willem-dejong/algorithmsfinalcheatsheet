@@ -1,4 +1,3 @@
-
 \subsection{Processes and DB}
 
 Probability of any success =  $p* (1 - p) ^ n-1 $ ...
@@ -95,53 +94,3 @@ O(1 + log($\alpha$)) for uniform
 $O(log_{m}{n})$
 \subsection{Expected Search w/ binary probe}
 O(1)
-
-%%%%
-
-\subsection{Formula Satisfiability/SAT}
-$(a \vee b \vee c \vee \overbar{d})$ <=>  $((b \wedge \overbar{c}) \vee \overbar{ ( \overbar{a} => d) } \vee (c \neq a \wedge b)) $
-
-\subsection{CNF}
-conjunction/AND of several clauses which use OR inside these clauses.
-\subsection{3CNF}
-cnf with exactly 3 literals per clause
-
-\subsection{Maximum Independent Set (from 3Sat)}
-input is a simple, unweighted graph, get the size of the largest/smallest subgraph
-Make the formula into a graph or vice versa, if it has an independent set of size $k$, its possible
-Any graph has an edge-complement with the same vertices but the opposite set of edges if its not an edge in $G$. Its independent in $G$ if and only if the same vertices define a clique in $\overbar{G}$ (a complete graph). The largest independent is thus the largest clique in the compliment of the graph.
-
-\includegraphics[width=\linewidth]{images/maxclique.png}
-
-\subsection{3Color [From 3SAT]}
-\includegraphics[width=\linewidth]{images/hamcycle.png}
-\includegraphics[width=\linewidth]{images/truthgadget.png}
-\includegraphics[width=\linewidth]{images/3color.png}
-
-Truth gadget: $T,F$, and $X$ for true/false/other, variable gadget for variable a connecting and $\overbar{a}$ which must be opposite bools. Clause gadget joining three literal nodes to node $T$ in the truth gadget using give new unlabeled nodes and ten edges.
-
-\subsection{Hamiltonian Cycle [From Vertex Cover]}
-
-For each vertex $u$, all the edge gadgets are connected in $H$ into a single directed path, a vertex chain. $H$ has $d-1$ additional edges for each $i$. $H$ also contains $k$ cover vertices, $1 - k$, with a directed edge to the first vertex in each vertex chain and a directed edge from the last vertex in each vertex chain.
-Start at cover vertex 1 and traverse vertex chain for $vu_{2}$, then visit cover vertex 2 and so on and so forth before returning to 1. If $v$ is a part of the vertex cover, follow the edge from $(u_{i}, v, in)$ to $(u_{i}, v, out)$, else, detour from  $(u_{i}, v, in)$ > $(v, u_{i}, in)$ > $(v, u_{i}, out)$ > $(u_{i}, v, out)$.
-$G$ contains a vertex cover of size $K$ if and only if $H$ contains a Hamiltonian cycle
-
-\includegraphics[width=\linewidth]{images/edgegadget.png}
-\includegraphics[width=\linewidth]{images/hamiltoniancycle.png}
-
-\subsection{Subset Sum}
-
-number edges from 0 to $m-1$; set $X$ contains the integer $b_{i} := f^{i}$ for each edge $i$, and the integer $a_{v} := f^{m} + \sum_{i \delta v}{4^i}$ where $\delta(v)$ is the set of edges that have $v$ as an endpoint. [ $X$ is a $(m+1)$ digit number written in base 4). The $mth$ digit is 1 if vertex, 0 otherwise. $t:= k * 4^m + \sum_{i = 0}^{m-1}{2 * 4^i}$
-
-\subsection{Draughts}
-
-White can capture a certain number of black pieces in a single move if and only if G has a Hamiltonian cycle. Replace edges $uv$ with  $u$-> $v$ and $v$->$u$. If there is a path you can capture them all, if there isn't, you can capture at most 1/2 of them.
-\includegraphics[width=\linewidth]{images/draughtssmall.png}
-
-\includegraphics[width=\linewidth]{images/draughts.png}
-
-\subsection{LIS -> DAG}
-
-Every number will be a node.Number-node A has an edge to number-node B iff 1. B comes after A in the sequence, 2. B is greater than A in value. There's a special node end. Every node has an edge to end.
-
-Every path on this graph is a valid increasing subsequence. The problem of finding the LIS is now the problem of finding the longest path on this graph. Apply DAG.

@@ -43,3 +43,24 @@ A \emph{many-one} reduction from one language $L' \subseteq \Sigma^*$ is a funct
 	\item Longest Path: Given a non-negatively weighted graph $G$ and two vertices $u$ and $v$, what is the longest simple path from $u$ to $v$ in the graph? A path is \emph{simple} if it visits each vertex at most once.
 	\item Steiner Tree: Given a weighted, undirected graph $G$ with some of the vertices marked, what is the minimum-weight subtree of $G$ that contains every marked vertex?
 \end{itemize}
+
+\subsection{Hamiltonian Cycle [From Vertex Cover]}
+
+For each vertex $u$, all the edge gadgets are connected in $H$ into a single directed path, a vertex chain. $H$ has $d-1$ additional edges for each $i$. $H$ also contains $k$ cover vertices, $1 - k$, with a directed edge to the first vertex in each vertex chain and a directed edge from the last vertex in each vertex chain.\\
+
+Start at cover vertex 1 and traverse vertex chain for $vu_{2}$, then visit cover vertex 2 and so on and so forth before returning to 1. If $v$ is a part of the vertex cover, follow the edge from $(u_{i}, v, in)$ to $(u_{i}, v, out)$, else, detour from  $(u_{i}, v, in)$ > $(v, u_{i}, in)$ > $(v, u_{i}, out)$ > $(u_{i}, v, out)$.\\
+
+$G$ contains a vertex cover of size $K$ if and only if $H$ contains a Hamiltonian cycle
+
+\includegraphics[width=\linewidth]{images/edgegadget.png}
+\includegraphics[width=\linewidth]{images/hamiltoniancycle.png}
+
+\subsection{Subset Sum}
+
+Given a graph $G$ and an integer $k$, first number edges from 0 to $m-1$; set $X$ contains the integer $b_{i} = 4^{i}$ for each edge $i$, and the integer $a_{v} = 4^{m} + \sum_{i \in \delta(v)}{4^i}$ where $\delta(v)$ is the set of edges that have $v$ as an endpoint. Finally, we set the target sum: $t = k * 4^m + \sum_{i = 0}^{m-1}{2 * 4^i}$
+
+\subsection{LIS -> DAG}
+
+Turn every number in the sequence into a vertex in a graph. Construct a special vertex $d$. For each vertex $v_1$, construct an edge to another vertex $v_2$ if (1) $v_2$ comes after $v_1$ in the sequence, and (2) $v_2$ > $v_1$. Also construct an edge to $d$.\\ 
+
+Every path on this graph is a valid increasing subsequence. The problem of finding the LIS is now the problem of finding the longest path on this graph. Apply DAG.
