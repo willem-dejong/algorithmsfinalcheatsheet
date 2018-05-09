@@ -1,4 +1,10 @@
 \section{Max Flows and Min Cuts}
+\subsection{Rand MinCut}
+uniformly at random select edge and collapse it. Repeat until only two nodes left the remaining edges are the ones to be cut.\\
+Suppose G has only one minimum cut, if it actually has more than one just pick your favorite, and this cut has size k. Every vertex of G must lie on at least k edges; otherwise, we could separate that vertex from the rest of the graph with an even smaller cut. Thus, the number of incident vertex-edge pairs is at least kn. Since every edge is incident to exactly two vertexes, G must have at least $\frac{kn}{2}$ edges. That implies that if we pick an edge in G uniformly at random, the probability of picking an edge in the minimum cut is at most $\frac{k}{\frac{kn}{2}}=\frac{2}{n}$. In other words, the probability that we don't screw up on the very first step is at least $1-\frac{2}{n}=\frac{n-2}{n}$.
+Probability that the overall alg returns the mincut is 
+$P(2)=1,$\\$P(n)\geq\frac{n-2}{n}\cdot P(n-1)=\prod_{i=3}^{n}\frac{i-2}{i}=\frac{2}{n(n-1)}$
+
 \includegraphics[width=\linewidth]{images/edgecollapse.png}
 \subsection{Blind Guess}
 \begin{algorithmic}[1]

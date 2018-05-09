@@ -1,12 +1,5 @@
 \section{Randomized Algorithms}
 
-\subsection{Processes and Database}
-Assume each process $P_i$ has some probability $p$ to access a database. A successful round is when exactly one process accesses the database. The probability of a single successful round is $p(1 - p)^{n-1}$.\\
-We can maximize this probability by setting $p = \frac{1}{n}$. The probability of success here is $\Theta(\frac{1}{n})$.\\
-Now, let's examine how long it will take process $P_i$ to succeed in accessing the database at least once. Running $t$ times, the probability that process $P_i$ does not succeed in any of rounds 1 through $t$ is $\leq (1 - \frac{1}{en})^t$. Setting $t$ to $\left\lceil en \right\rceil$ means the probability is $\leq e^{-1}$, independent of $n$.\\
-If we set $t = \left\lceil en \right\rceil \cdot (c \ln n)$, the probability of failure is upper-bounded by $n^{-c}$.\\
-With probablity at least $1 - n^{-1}$, all processes succeed in accessing the database at least once within $t = 2 \left\lceil en \right\rceil \ln n$ rounds.
-
 \subsection{The Union Bound}
 Given events $\mathscr{E}_1, \mathscr{E}_2, \ldots, \mathscr{E}_n$, we have
 \[
@@ -47,7 +40,21 @@ Suppose we have a coin which has a probability $p > 0$ of landing heads, and a p
 For $j > 0$, we have $\text{Pr}[X = j] = p(1 - p)^{j-1}$; in order for the process to take exactly $j$ steps, the first $j - 1$ flips must come up tails, and the $j$th must come up heads. Thus, $E[X] = \sum_{j = 0}^\infty j \cdot \text{Pr}[X = j] = \frac{1}{p}$.
 
 \subsection{Linearity of Expectation}
-Given 2 random vars $X$ and $Y$ in the same probability space, $E [X + Y] = E[ X ] + E [ Y ] $
+Given 2 random vars $X$ and $Y$ in the same probability space, $E [X + Y] = E[ X ] + E [ Y ] $\\
+Expected Value of sum of two dice throws=\\
+2*1/36 + 3*1/6 + .... + 7*1/36+\\
+3*1/36 + 4*1/6 + .... + 8*1/36 +\\ 
+........................\\
+.........................\\
+7*1/36 + 8*1/6 + .... + 12*1/36\\     
+=  7
+  
+Expected Value of sum of 2 dice throws = 2*(Expected value of one dice throw)
+= 2*(1/6 + 2/6 + .... 6/6)
+= 2*7/2
+= 7 
+
+Expected value of sum for n dice throws is = n * 7/2 = 3.5 * n 
 
 \subsection{Memoryless guessing}
 You attempt to guess cards uniformly at random as they are revealed in a shuffled deck. You can expect to get 1 correct, independent of $n$ (use Linearity of Expectation).
@@ -68,26 +75,7 @@ There is a randomized algo with polynomial expected run time that is guaranteed 
 
 \subsection{Quicksort}
 
-To select a median:
-\begin{algorithmic}[1]
-	\Function{Select}{$S, k$}
-		\State {$a_i \gets$ a random var in $S$}
-		\ForAll{$a_j$ in $S$}
-			\State{$S^{-}$.append($a_j$) if $a_j < a_i$}
-			\State{$S^{+}$.append($a_j$) if $a_j > a_i$}
-		\EndFor
-		\If{$S^{-} = k - 1$}
-			\State{return $a_i$}
-		\ElsIf{$S^{-} \geq k$}
-			\State{Select($S^{-}, k$)}
-		\Else
-			\State{Select($S^{+}, k-1-\left|S^{-}\right|$)}
-		\EndIf
-	\EndFunction
-\end{algorithmic}
-
-The expected running time is $O(n)$.\\
-The expected number of comparisons in quicksort is $n \log n$.
+when pivot is selected uniformly at random the expected number of comparisons in quicksort is $O(n \log n)$.
 
 %%%
 
@@ -98,10 +86,10 @@ Let $n$ be the number of items stored in the map, and $m$ be the size of the map
 A hashing chosen uniformly at random means that for all $x$ and all $i$, $\text{Pr}[h(x) = i] = \frac{1}{m}$.
 
 \subsubsection{Universal}
-For any two items in the universe, the probability of collision is as small as possible: $\text{Pr}[h(x) = h(y)] = frac{1}{m}$ for all $x \neq y$.
+For any two items in the universe, the probability of collision is as small as possible: $\text{Pr}[h(x) = h(y)] = \frac{1}{m}$ for all $x \neq y$.
 
 \subsubsection{Near-universal}
-The probability of collision is \emph{close} to ideal: $\text{Pr}[h(x) = h(y)] \leq 2/m$ for all $x \neq y$.
+The probability of collision is \emph{close} to ideal: $\text{Pr}[h(x) = h(y)] \leq \frac{2}{m}$ for all $x \neq y$.
 
 \subsubsection{k-uniform}
 The probability that each key maps to the corresponding hash value is $\text{Pr}[\bigwedge_{j=1}^{k} h(x_j) = i_j)] = \frac{1}{m^{k}}$ for all distinct $x_1,\ldots,x_k$ and all $i_1,\ldots,i_k$.
